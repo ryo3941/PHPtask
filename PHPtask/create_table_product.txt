@@ -1,0 +1,63 @@
+create table user(
+  user_id       nvarchar(20),
+  name          nvarchar(30),
+  password      nvarchar(15),
+  `e-mail`      nvarchar(256),
+  permission    tinyint,
+  primary key(user_id)
+);
+
+create table product(
+  product_id    tinyint  auto_increment,
+  type          tinyint         NOT NULL,
+  name          nvarchar(30)    NOT NULL,
+  price         int             NOT NULL,
+  order_date    date            NOT NULL,
+  order_status  tinyint         NOT NULL,
+  order_user    nvarchar(20)    NOT NULL,
+  primary key(product_id),
+  foreign key(type) references type(type_id),
+  foreign key(order_user) references user(user_id)
+);
+
+create table type(
+  type_id tinyint,
+  name    nvarchar(5),
+  primary key(type_id)
+);
+
+create table status(
+  status_id      tinyint,
+  status         char(3),
+  delivery_date  date,
+  primary key(status_id)
+);
+
+insert into type value(1, '文房具');
+insert into type value(2, '服');
+insert into type value(3, 'お菓子');
+insert into type value(4, '食品');
+insert into type value(5, 'おもちゃ');
+insert into type value(6, 'スポーツ用品');
+insert into type value(7, '本');
+
+insert into status value(1, '未発送', NULL);
+insert into status value(2, '配達完了', '2022-07-11');
+insert into status value(3, '配達中', NULL);
+insert into status value(4, '未発送', NULL);
+insert into status value(5, '未発送', NULL);
+insert into status value(6, '未発送', NULL);
+insert into status value(7, '未発送', NULL);
+
+insert into product(type, name, price, order_user) value(1, '鉛筆', 100, 'sugi');
+insert into product(type, name, price, order_user) value(2, 'パーカー', 5000, 'k-ygawa');
+insert into product(type, name, price, order_user) value(3, 'ポテトチップス', 200, 'hoge');
+insert into product(type, name, price, order_user) value(4, '小麦', 100, 'ryo');
+insert into product(type, name, price, order_user) value(5, 'LEGO', 5000, 'sugi');
+insert into product(type, name, price, order_user) value(6, 'スケボー', 3000, 'k-ygawa');
+insert into product(type, name, price, order_user) value(7, '英和辞典', 5000, 'hoge');
+
+insert into user values('hoge', '山口太郎', 'P@ssw0rd', 'hoge@yic.ac.jp', 1);
+insert into user values('k-ygawa', '柳川小次郎', 'kojikoji', 'k-ygawa@yic.ac.jp', 2);
+insert into user values('sugi', '杉林伸繁', 'sugisugi', 'sugi@yic.ac.jp', 2);
+insert into user values('ryo', '生中燎', 'ryo1107', 'b0021001@yic.ac.jp', 1);
